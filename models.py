@@ -66,7 +66,7 @@ def sample_batch(data, batch_size=100, sample_mode='joint', n_genes=-1):
     return batch
 
 
-def train(data, mine_net,mine_net_optim, n_genes=-1, batch_size=100, iter_num=int(5e+3), log_freq=int(1e+3)):
+def train(data, mine_net,mine_net_optim, n_genes=-1, batch_size=100, iter_num=int(5e+3)):
     # data is x or y
     result = list()
     ma_et = 1.
@@ -75,9 +75,6 @@ def train(data, mine_net,mine_net_optim, n_genes=-1, batch_size=100, iter_num=in
         , sample_batch(data, n_genes=n_genes, batch_size=batch_size,sample_mode='marginal')
         mi_lb, ma_et = learn_mine(batch, mine_net, mine_net_optim, ma_et)
         result.append(mi_lb.detach().cpu().numpy())
-        if type(log_freq)!=str:
-            if (i+1)%(log_freq)==0:
-                print('bits:', np.nanpercentile(result, 95)/np.log(2))
     return result
 
 
